@@ -86,6 +86,6 @@ function uptime {
   }
 }
 
-function reload-profile {
+function Update-Profile {
   & $profile
 }
