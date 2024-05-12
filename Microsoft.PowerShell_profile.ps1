@@ -11,7 +11,6 @@ if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
 }
 
-Invoke-Expression (&starship init powershell)
 
 function Update-Profile {
   if (-not $Global:hasInternet) {
@@ -89,3 +88,6 @@ function uptime {
 function reload {
   & $profile
 }
+
+
+Invoke-Expression (&starship init powershell)
