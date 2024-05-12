@@ -29,7 +29,7 @@ function Update-Profile {
     }
   }
   catch {
-    Write-Error "Unable to check for `$profile updates. Error: $Error"
+    Write-Error "Unable to check for `$profile updates. Error: $_"
   }
   finally {
     Remove-Item "$env:temp/Microsoft.PowerShell_profile.ps1" -ErrorAction SilentlyContinue
@@ -89,5 +89,128 @@ function reload {
   & $profile
 }
 
+function unzip($file) {
+  Write-Output("Extracting", $file, "to", $pwd)
+  $fullFile = Get-ChildItem -Path $pwd -Filter $file | ForEach-Object { $_.FullName }
+  Expand-Archive -Path $fullFile -DestinationPath $pwd
+}
 
-Invoke-Expression (&starship init powershell)
+function hb {
+  if ($args.Lenght -eq 0) {
+    Write-Error "No file path specified."
+    return
+  }
+
+  $FilePath = $args[0]
+
+  if (Test-Path $FilePath) {
+    $Content = Get-Content $FilePath -Raw
+  }
+  else {
+    Wirte-Error "File path does not exist."
+    return
+  }
+
+  $uri = "http://bin.chirstitus.com/documents"
+  try {
+    $response = Invoke-RestMethod -Uri $uri -Method Post -Body $Content -ErrorAction Stop
+    $hasteKey = $response.key
+    $url = "http://bin.christitus.com/$hasteKey"
+    Write-Output $url
+  }
+  catch {
+    Write-Error "Failed to upload the document. Error: $_"
+  }
+}
+
+function df {
+  Get-Volume
+}
+
+function sed($file, $find, $replace) {
+  (Get-Content $file).Replace("$find", $replace) | Set-Content $file
+}
+
+function which($name) {
+  Get-Command $name | Select-Object -ExpandProperty Definition
+}
+
+function export($name, $value) {
+  Set-Item -Force -Path "env:$name" -Value $value
+}
+
+function pkill($name) {
+  Get-Process $name -ErrorAction SilentlyContinue | Stop-Process
+}
+
+function pgrep($name) {
+  Get-Process $name
+}
+
+function head() {
+  params($Path, $n = 10)
+  Get-Content $Path -Head $n
+}
+
+
+function tail() {
+  params($Path, $n = 10)
+  Get-Content $Path -Tail $n
+}
+
+function n {
+  param($name)
+  New-Item -ItemType "file" -Path . -Name $name
+}
+
+function mkcd($dir) {
+  mkdir $dir -Force
+  Set-Location $dir
+}
+
+function ep() { vim $PROFILE }
+
+function k9 { Stop-Process -Name $args[0] }
+
+# Enhanced Listing
+function la { Get-ChildItem -Path . -Force | Format-Table -AutoSize }
+function ll { Get-ChildItem -Path . -Force -Hidden | Format-Table -AutoSize }
+
+# Git Shortcuts
+function gs { git status }
+
+function ga { git add . }
+
+function gc { param($m) git commit -m "$m" }
+
+function gp { git push }
+
+
+function gcom {
+  git add .
+  git commit -m "$args"
+}
+function lazyg {
+  git add .
+  git commit -m "$args"
+  git push
+}
+
+function sysinfo { Get-ComputerInfo }
+
+# Networking Utilities
+function flushdns { Clear-DnsClientCache }
+
+# Clipboard Utilities
+function cpy { Set-Clipboard $args[0] }
+
+function pst { Get-Clipboard }
+
+# Enhanced PowerShell Experience
+Set-PSReadLineOption -Colors @{
+  Command   = 'Yellow'
+  Parameter = 'Green'
+  String    = 'DarkCyan'
+}
+
+oh-my-posh init pwsh | Invoke-Expression
