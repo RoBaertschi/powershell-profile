@@ -213,9 +213,7 @@ Set-PSReadLineOption -Colors @{
   String    = 'DarkCyan'
 }
 
-oh-my-posh init pwsh --config .\robaertschi.omp.json | Invoke-Expression
-
-
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/RoBaertschi/powershell-profile/master/robaertschi.omp.json" | Invoke-Expression
 
 if (Get-Command fzf -ErrorAction SilentlyContinue) {
   Import-Module PSFzf
@@ -234,15 +232,22 @@ else {
 
 
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
-  Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+  Invoke-Expression (& {
+      $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
+    (zoxide init --hook $hook powershell | Out-String)
+    })
 }
 else {
   try {
     winget install -e -id ajeetdsouza.zoxide
     Write-Host "zoxide installed successfully. Initializing..." 
-    Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+    Invoke-Expression (& {
+        $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
+    (zoxide init --hook $hook powershell | Out-String)
+      })
   }
   catch {
     Write-Error "Failed to install zoxide. Error: $_"
   }
 }
+
