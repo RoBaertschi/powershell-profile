@@ -67,3 +67,25 @@ Set-Alias -Name vim -Value $EDITOR
 function Edit-Profile {
   vim $PROFILE.CurrentUserAllHosts
 }
+
+function touch($file) { "" | Out-File $file -Encoding ascii }
+function ff($name) {
+  Get-ChildItem -Recurse -Filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
+    Write-Output "$($_.Directory)\$($_)"
+  }
+}
+
+function Get-Pub-IP { (Invoke-WebRequest http://ifconfig.me/ip).Content }
+
+function uptime {
+  if ($PSVersionTable.PSVersion.Major -eq 5) {
+    Get-WmiObject win32_operatingsystem | Select-Object @{Name = 'LastBootUpTime'; Expression = { $_.ConverttoDateTime($_.lastbootuptime) } } | Format-Table -HideTableHeaders
+  }
+  else {
+    net statistics workstation | Select-String "since" | ForEach-Object { $_.ToString().Replace('Statistics since ', '') }
+  }
+}
+
+function reload-profile {
+  & $profile
+}
