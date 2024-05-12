@@ -217,6 +217,12 @@ oh-my-posh init pwsh --config "https://raw.githubusercontent.com/RoBaertschi/pow
 
 if (Get-Command fzf -ErrorAction SilentlyContinue) {
   Import-Module PSFzf
+
+
+  Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' `
+    -PSReadlineChordReverseHistory 'Ctrl+r'
+
+  Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
 }
 else {
   try {
@@ -224,6 +230,12 @@ else {
     Write-Host "fzf installed successfully. Initializing..." 
     Install-Module -Name PSFzf -Force -SkipPublisherCheck
     Import-Module PSFzf
+
+
+    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' `
+      -PSReadlineChordReverseHistory 'Ctrl+r'
+
+    Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
   }
   catch {
     Write-Error "Failed to install fzf. Error: $_"
