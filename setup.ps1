@@ -128,3 +128,13 @@ try {
 catch {
   Write-Error "Failed to install zoxide. Error: $_"
 }
+
+# fzf Install
+try {
+  winget install -e --id junegunn.fzf
+  Install-Module -Name PSFzf -Force -SkipPublisherCheck
+  Write-Host "fzf installed successfully."
+}
+catch {
+  Write-Error "Failed to install fzf. Error: $_"
+}

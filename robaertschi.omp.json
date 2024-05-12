@@ -5,7 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "background": "#2316df",
+          "background": "#167edf",
           "foreground": "#ffffff",
           "leading_diamond": "\ue0b6",
           "style": "diamond",
@@ -14,7 +14,7 @@
           "type": "session"
         },
         {
-          "background": "#4c81f1",
+          "background": "#1695df",
           "foreground": "#ffffff",
           "powerline_symbol": "\ue0b0",
           "properties": {
@@ -27,7 +27,7 @@
           "type": "path"
         },
         {
-          "background": "#38d7ff",
+          "background": "#388eff",
           "background_templates": [
             "{{ if or (.Working.Changed) (.Staging.Changed) }}#FF9248{{ end }}",
             "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#ff4500{{ end }}",
@@ -187,6 +187,20 @@
           "style": "powerline",
           "template": " \uf167 {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }} ",
           "type": "ytm"
+        },
+        {
+          "type": "spotify",
+          "style": "powerline",
+          "invert_powerline": true,
+          "powerline_symbol": "\ue0b2",
+          "foreground": "#ffffff",
+          "background": "#03990b",
+          "properties": {
+            "paused_icon": "\uf04c ",
+            "playing_icon": "\uf04b ",
+            "always_enabled": true
+          },
+          "template": " {{ .Icon }}{{ if ne .Status \"stopped\" }}{{ .Artist }} - {{ .Track }}{{ end }} "
         },
         {
           "background": "#f36943",

@@ -228,3 +228,19 @@ else {
     Write-Error "Failed to install zoxide. Error: $_"
   }
 }
+
+
+if (Get-Command fzf -ErrorAction SilentlyContinue) {
+  Import-Module PSFzf
+}
+else {
+  try {
+    winget install -e -id junegunn.fzf
+    Write-Host "fzf installed successfully. Initializing..." 
+    Install-Module -Name PSFzf -Force -SkipPublisherCheck
+    Import-Module PSFzf
+  }
+  catch {
+    Write-Error "Failed to install fzf. Error: $_"
+  }
+}
