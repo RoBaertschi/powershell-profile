@@ -214,3 +214,17 @@ Set-PSReadLineOption -Colors @{
 }
 
 oh-my-posh init pwsh | Invoke-Expression
+
+if (Get-Command zoxide -ErrorAction SilentlyContinue) {
+  Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+}
+else {
+  try {
+    winget install -e -id ajeetdsouza.zoxide
+    Write-Host "zoxide installed successfully. Initializing..." 
+    Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+  }
+  catch {
+    Write-Error "Failed to install zoxide. Error: $_"
+  }
+}
