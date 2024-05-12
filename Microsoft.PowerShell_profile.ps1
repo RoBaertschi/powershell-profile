@@ -20,7 +20,7 @@ function Update-Profile {
   }
 
   try {
-    $url = "https://raw.githubusercontent.com/RoBaertschi/powershell-profile/master/Microsoft.PowerShell_profile.ps1"
+    $url = "https://raw.githubusercontent.com/RoBaertschi/powershell-profile/main/Microsoft.PowerShell_profile.ps1"
     $oldhash = Get-FileHash $profile
     Invoke-RestMethod $url -OutFile "$env:temp/Microsoft.PowerShell_profile.ps1"
     $newhash = Get-FileHash "$env:temp/Microsoft.PowerShell_profile.ps1"
@@ -30,7 +30,7 @@ function Update-Profile {
     }
   }
   catch {
-    Write-Error "Unable to check for `$profile updates"
+    Write-Error "Unable to check for `$profile updates. Error: $Error"
   }
   finally {
     Remove-Item "$env:temp/Microsoft.PowerShell_profile.ps1" -ErrorAction SilentlyContinue
@@ -86,6 +86,6 @@ function uptime {
   }
 }
 
-function Update-Profile {
+function reload {
   & $profile
 }
