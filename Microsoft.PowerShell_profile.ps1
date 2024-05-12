@@ -213,7 +213,7 @@ Set-PSReadLineOption -Colors @{
   String    = 'DarkCyan'
 }
 
-oh-my-posh init pwsh | Invoke-Expression
+oh-my-posh init pwsh --config .\robaertschi.omp.json | Invoke-Expression
 
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
   Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
