@@ -243,8 +243,8 @@ else {
 }
 
 if (Get-Command nvim -ErrorAction SilentlyContinue) {
-  if (-not (Test-Path -Path "${env:LOCALAPPDATA}\nvim")) {
-    git clone "https://github.com/robaertschi/nvim-config" "${env:LOCALAPPDATA}\nvim"
+  if (-not (Test-Path -Path "${env:APPDATA}\nvim")) {
+    git clone "https://github.com/robaertschi/nvim-kickstart" "${env:APPDATA}\nvim"
   }
 }
 
