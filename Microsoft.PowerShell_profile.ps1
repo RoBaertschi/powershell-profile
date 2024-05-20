@@ -242,6 +242,12 @@ else {
   }
 }
 
+if (Get-Command nvim -ErrorAction SilentlyContinue) {
+  if ( not Test-Path -Path "${env:APPDATA}\nvim") {
+    git clone "https://github.com/robaertschi/nvim-config" "${env:APPDATA}\nvim"
+  }
+}
+
 
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
   Invoke-Expression (& {
