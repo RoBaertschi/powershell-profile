@@ -213,7 +213,7 @@ Set-PSReadLineOption -Colors @{
   String    = 'DarkCyan'
 }
 
-oh-my-posh init pwsh --config "https://raw.githubusercontent.com/RoBaertschi/powershell-profile/master/robaertschi.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/RoBaertschi/powershell-profile/master/robaertschi.omp.toml" | Invoke-Expression
 
 if (Get-Command fzf -ErrorAction SilentlyContinue) {
   Import-Module PSFzf
