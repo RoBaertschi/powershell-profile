@@ -248,6 +248,10 @@ if (Get-Command nvim -ErrorAction SilentlyContinue) {
   }
 }
 
+if (Get-Command fnm -ErrorAction SilentlyContinue) {
+  fnm env --use-on-cd | Out-String | Invoke-Expression
+}
+
 
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
   Invoke-Expression (& {
